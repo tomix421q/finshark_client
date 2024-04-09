@@ -4,18 +4,23 @@ import Search from './Components/Search/Search'
 import { CompanySearch } from './company'
 import { searchCompanies } from './api'
 
-
 function App() {
   const [search, setSearch] = useState<string>('')
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([])
   const [serverError, setServerError] = useState<string>('')
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
     console.log(e)
   }
 
-  const onClick = async (e: SyntheticEvent) => {
+  const onPortfolioCreate = (e: SyntheticEvent) => {
+    e.preventDefault()
+    console.log(e)
+  }
+
+  const onSearchSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault()
     const result = await searchCompanies(search)
     if (typeof result === 'string') {
       setServerError(result)
@@ -28,9 +33,9 @@ function App() {
   return (
     <>
       <div className='App'>
-        <Search onClick={onClick} search={search} handleChange={handleChange} />
+        <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange} />
         {serverError && <h1>{serverError}</h1>}
-        <CardList searchResults={searchResult} />
+        <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} />
       </div>
     </>
   )
