@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react'
 import { CompanySearch } from '../../company'
-import AddPortfolio from '../Portfolio/AddPortfolio/AddPortfolio'
+import AddPortfolio from '../Portfolio/AddPortfolio'
+import { Link } from 'react-router-dom'
 
 type Props = {
   id: string
@@ -10,16 +11,15 @@ type Props = {
 
 const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate }: Props): JSX.Element => {
   return (
-    <div className='w-[21.875rem] h-[28.125rem] flex flex-col align-middle text-center p-[3.125rem] rounded-lg overflow-hidden shadow-black/30 shadow-xl items-center hover:ring-2 ease-out ring-white/50 duration-75'>
-      <span className='text-sm text-gray-500'>{id}</span>
-      
-      <div className='size-[12.5rem] m-1'>
-        <h2 className='font-bold'>
-          {searchResult.name} ({searchResult.symbol})
-        </h2>
-        <p className='uppercase font-semibold'>{searchResult.currency}$</p>
-      </div>
-      <p className='uppercase font-light'>
+    <div className='flex flex-col items-center justify-between w-full p-6 bg-slate-900 rounded-lg md:flex-row' key={id} id={id}>
+      <Link
+        to={`/company/${searchResult.symbol}/company-profile`}
+        className='font-bold text-center text-veryDarkViolet md:text-left'
+      >
+        {searchResult.name} ({searchResult.symbol})
+      </Link>
+      <p className='text-veryDarkBlue'>{searchResult.currency}</p>
+      <p className='font-bold text-veryDarkBlue'>
         {searchResult.exchangeShortName} - {searchResult.stockExchange}
       </p>
       <AddPortfolio onPortfolioCreate={onPortfolioCreate} symbol={searchResult.symbol} />
